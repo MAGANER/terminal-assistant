@@ -27,32 +27,31 @@ class MainMenu(BaseMenu):
         curr = False
         for m in self.__models:
             y+=1
-            model = "* "+m if m == self.__models[self.__curr_model] else m
-            curr = True if "*" in model else False
+            curr = True if m == self.__models[self.__curr_model] else False
 
             if curr:
-                self.screen.addstr(y,x,model,curses.color_pair(2))
+                self.screen.addstr(y,x,m,curses.color_pair(2))
             else:
-               self.screen.addstr(y,x," "*(len(model)+5))
-               self.screen.addstr(y,x,model,curses.color_pair(1))
+               self.screen.addstr(y,x," "*(len(m)+5))
+               self.screen.addstr(y,x,m,curses.color_pair(1))
 
     def process_input(self):
-         val = self.screen.getch()
+        val = self.screen.getch()
+        
+        if val == ord("q"):
+            exit(0)
+        elif val == ord("s"):
+            self.__curr_model+=1
+            if self.__curr_model > 3:
+                self.__curr_model = 0
+        elif val == ord("w"):
+            self.__curr_model-=1
+            if self.__curr_model < 0:
+                self.__curr_model = 3
+        elif val == 10:#enter
+            return True
 
-         if val == ord("q"):
-             exit(0)
-         elif val == ord("s"):
-             self.__curr_model+=1
-             if self.__curr_model > 3:
-                 self.__curr_model = 0
-         elif val == ord("w"):
-             self.__curr_model-=1
-             if self.__curr_model < 0:
-                 self.__curr_model = 3
-         elif val == 10:#enter
-             return True
-
-         return None
+        return None
 
     def run(self,):
         self.__print_title()
