@@ -37,7 +37,7 @@ class InputBuffer:
                 self.y+=1
                 self.quit_counter+=1
 
-            if self.quit_counter == 2:
+            if self.quit_counter > 2:
                 self.x = 7
                 break
                 
