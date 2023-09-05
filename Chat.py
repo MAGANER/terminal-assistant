@@ -2,7 +2,6 @@ from Perplexity import create_perplexity
 from colors import color
 import os
 import time
-import keyboard
 
 class Chat:
     def __init__(self):
@@ -15,26 +14,19 @@ class Chat:
         print("choose model to use:")
         for m in enumerate(self.__models):
             id, line = m
-            if id == self.__curr_m:
-                print(color.yellow+line+color.end)
-            else:
-                print(line)
-        os.system("clear|cls")
-    def process_keys(self):
-        if keyboard.is_pressed("up arrow"):
-            self.__curr_m = 3 if self.__curr_m == 0 else self.__curr_m - 1
-        if keyboard.is_pressed("down arrow"):
-            self.__curr_m = 0 if self.__curr_m == 3 else self.__curr_m + 1
-        if keyboard.is_pressed("enter"):
-            return True
+            print("{}){}".format(id,line))
+        choice = input(">>")
+        if choice in ("0","1","2","3"):
+            return int(choice)
+        else:
+            os.system("clear||cls")
+            self.print_main_menu()
     def run_chat(self):
         print(color.blue+"[you]:"+color.end,end="")
-        s = input()
+        s = "".join(list(iter(input, '')))
     def run(self):
-        while True:
-            self.print_main_menu()
-            if self.process_keys():
-                break
+        self.__curr_m = self.print_main_menu()
 
+        os.system("clear||cls")
         while True:
             self.run_chat()
