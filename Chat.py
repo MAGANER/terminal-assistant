@@ -63,7 +63,7 @@ class Chat:
 
     #these functions are related to communication with AI
     def __run_prompt_input(self):
-        self.screen.addstr(self.buffer.y,self.buffer.x-7,"[you]:",curses.color_pair(3))
+        self.screen.addstr(self.buffer.y,self.buffer.x,"[you]:",curses.color_pair(3))
         s = self.buffer.read()
     def __talk_to_ai(self):
         while True:
