@@ -9,7 +9,7 @@ class Chat:
         self.screen = curses.initscr()
         self.screen.keypad(True)
         
-        curses.cbreak()
+        curses.raw()
         curses.curs_set(0)
 
         curses.start_color()
@@ -20,11 +20,11 @@ class Chat:
         self.perp = None
 
         self.buffer = InputBuffer(self.screen,500)
+        self.end_dialog = False
         
         
     def __del__(self):
         curses.endwin()
-        curses.nocbreak()
         curses.curs_set(1)
         self.screen.keypad(False)
 
@@ -63,10 +63,17 @@ class Chat:
 
     #these functions are related to communication with AI
     def __run_prompt_input(self):
-        self.screen.addstr(self.buffer.y,self.buffer.x,"[you]:",curses.color_pair(3))
+        y,x = self.screen.getyx()
+        self.screen.addstr(y,x,"[you]:",curses.color_pair(3))
+        self.screen.move(y+1,x)
+        
         s = self.buffer.read()
+        if s == -1:
+            self.end_dialog = True
+            
+        
     def __talk_to_ai(self):
-        while True:
+        while not self.end_dialog:
             self.__run_prompt_input()
             self.screen.refresh()
             
