@@ -24,9 +24,12 @@ class Chat:
     def run_chat(self):
         print(color.blue+"[you]:"+color.end,end="")
         s = "".join(list(iter(input, '')))
+        s = self.perp.search(s)
+        print(color.yellow+"[robot]:"+color.end+"\n"+s)
     def run(self):
         self.__curr_m = self.print_main_menu()
-
+        self.perp = create_perplexity(self.__models[self.__curr_m])
+        
         os.system("clear||cls")
         while True:
             self.run_chat()
