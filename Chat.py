@@ -26,6 +26,7 @@ class Chat:
         else:
             os.system("clear||cls")
             self.__print_main_menu()
+
     def __run_chat(self):
         print(color.blue+"[you]:"+color.end,end="")
 
