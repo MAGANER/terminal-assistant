@@ -2,6 +2,11 @@ from Perplexity import create_perplexity
 from colors import color
 import os
 import time
+import signal
+
+def catch_interruption_c(signal, frame):
+    print("\n work is done. Hope it was helpful!")
+    exit(0)
 
 class Chat:
     def __init__(self):
@@ -10,7 +15,7 @@ class Chat:
         self.__curr_m = 0
         self.perp = None
 
-    def print_main_menu(self):
+    def __print_main_menu(self):
         print("choose model to use:")
         for m in enumerate(self.__models):
             id, line = m
@@ -20,16 +25,22 @@ class Chat:
             return int(choice)
         else:
             os.system("clear||cls")
-            self.print_main_menu()
-    def run_chat(self):
+            self.__print_main_menu()
+    def __run_chat(self):
         print(color.blue+"[you]:"+color.end,end="")
-        s = "".join(list(iter(input, '')))
+
+        s = "".join(list(iter(input, '')))  
         s = self.perp.search(s)
+        
         print(color.yellow+"[robot]:"+color.end+"\n"+s)
     def run(self):
-        self.__curr_m = self.print_main_menu()
+        signal.signal(signal.SIGINT, catch_interruption_c)
+        
+        self.__curr_m = self.__print_main_menu()
         self.perp = create_perplexity(self.__models[self.__curr_m])
         
         os.system("clear||cls")
         while True:
-            self.run_chat()
+            self.__run_chat()
+            
+        signal.pause()
