@@ -27,13 +27,21 @@ class Chat:
             os.system("clear||cls")
             self.__print_main_menu()
 
+    def __is_input_ok(self,s):
+        check = False
+        for ch in s:
+            if ch.isalpha() or ch.isdigit():
+                check = True
+        return check
+    
     def __run_chat(self):
         print(color.blue+"[you]:"+color.end,end="")
 
-        s = "".join(list(iter(input, '')))  
-        s = self.perp.search(s)
-        
-        print(color.yellow+"[robot]:"+color.end+"\n"+s)
+        s = "".join(list(iter(input, '')))
+        if self.__is_input_ok(s):
+            s = self.perp.search(s)
+            print(color.yellow+"[robot]:"+color.end+"\n"+s)
+            
     def run(self):
         signal.signal(signal.SIGINT, catch_interruption_c)
         
