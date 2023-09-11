@@ -21,7 +21,7 @@ class Chat:
             id, line = m
             print("{}){}".format(id,line))
         choice = input(">>")
-        if choice in ("0","1","2","3"):
+        if choice.isdigit() and int(choice) in range(0,5):
             return int(choice)
         else:
             os.system("clear||cls")
@@ -47,6 +47,7 @@ class Chat:
         
         self.__curr_m = self.__print_main_menu()
         self.perp = create_perplexity(self.__models[self.__curr_m])
+
         
         os.system("clear||cls")
         while True:
